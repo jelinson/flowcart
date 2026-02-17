@@ -1,31 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlowCart - Template Gallery</title>
-  <link rel="stylesheet" href="css/common.css">
-  <link rel="stylesheet" href="css/gallery.css">
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>FlowCart</h1>
-      <div class="subtitle">Template Gallery</div>
-      <a href="grocery-list.html" class="back-link">← Back to Generator</a>
-    </header>
-
-    <div class="gallery">
-      <!-- Template 1: Weekly Meal Prep -->
-      <div class="template-card">
-        <div class="template-header">
-          <div class="template-title">🥗 Weekly Meal Prep</div>
-          <div class="template-description">Organized by store section for efficient bulk shopping. Perfect for Sunday meal prep warriors.</div>
-          <button class="download-btn" onclick="downloadCSV('weekly-meal-prep')">Download CSV</button>
-        </div>
-
-        <div class="csv-preview">
-          <pre id="csv-weekly-meal-prep">Whole Foods,Produce,Spinach,true
+const templates = {
+  'weekly-meal-prep': `Whole Foods,Produce,Spinach,true
 Whole Foods,Produce,Kale
 Whole Foods,Produce,Sweet potatoes,true
 Whole Foods,Produce,Broccoli,true
@@ -61,26 +35,13 @@ Whole Foods,Pantry,Honey
 Whole Foods,Household,Paper towels
 Whole Foods,Household,Dish soap
 Whole Foods,Household,Sponges
-Whole Foods,Household,Trash bags</pre>
-        </div>
+Whole Foods,Household,Trash bags`,
 
-        <div class="list-preview" id="preview-weekly-meal-prep"></div>
-      </div>
-
-      <!-- Template 2: Taco Tuesday -->
-      <div class="template-card">
-        <div class="template-header">
-          <div class="template-title">🌮 Taco Tuesday</div>
-          <div class="template-description">Everything you need for an epic taco night. Organized by your local grocery store layout.</div>
-          <button class="download-btn" onclick="downloadCSV('taco-tuesday')">Download CSV</button>
-        </div>
-
-        <div class="csv-preview">
-          <pre id="csv-taco-tuesday">Safeway,Produce - Front,Cilantro
+  'taco-tuesday': `Safeway,Produce - Front,Cilantro
 Safeway,Produce - Front,Limes,true
 Safeway,Produce - Front,Avocados,true
 Safeway,Produce - Front,Tomatoes,true
-Safeway,Produce - Front,Jalapeños
+Safeway,Produce - Front,Jalape\u00f1os
 Safeway,Produce - Front,White onion
 Safeway,Produce - Front,Red onion
 Safeway,Produce - Front,Garlic
@@ -106,22 +67,9 @@ Safeway,Dairy,Mexican crema
 Safeway,Frozen,Margarita mix
 Safeway,Bakery,Lime wedges
 Safeway,Household,Napkins,true
-Safeway,Household,Paper plates</pre>
-        </div>
+Safeway,Household,Paper plates`,
 
-        <div class="list-preview" id="preview-taco-tuesday"></div>
-      </div>
-
-      <!-- Template 3: Breakfast Essentials -->
-      <div class="template-card">
-        <div class="template-header">
-          <div class="template-title">☕ Breakfast Essentials</div>
-          <div class="template-description">Start your day right. A comprehensive breakfast staples list across multiple stores.</div>
-          <button class="download-btn" onclick="downloadCSV('breakfast-essentials')">Download CSV</button>
-        </div>
-
-        <div class="csv-preview">
-          <pre id="csv-breakfast-essentials">Trader Joe's,,Bagels,true
+  'breakfast-essentials': `Trader Joe's,,Bagels,true
 Trader Joe's,,Cream cheese
 Trader Joe's,,Orange juice
 Trader Joe's,,Coffee beans,false,true
@@ -150,22 +98,9 @@ Costco,,Coffee filters
 Local Bakery,,Croissants,true
 Local Bakery,,Muffins
 Local Bakery,,Cinnamon rolls
-Local Bakery,,Scones</pre>
-        </div>
+Local Bakery,,Scones`,
 
-        <div class="list-preview" id="preview-breakfast-essentials"></div>
-      </div>
-
-      <!-- Template 4: Date Night -->
-      <div class="template-card">
-        <div class="template-header">
-          <div class="template-title">🍷 Date Night Dinner</div>
-          <div class="template-description">Impress with a restaurant-quality meal at home. Specialized ingredients from multiple stores.</div>
-          <button class="download-btn" onclick="downloadCSV('date-night')">Download CSV</button>
-        </div>
-
-        <div class="csv-preview">
-          <pre id="csv-date-night">Whole Foods,Produce,Fresh basil
+  'date-night': `Whole Foods,Produce,Fresh basil
 Whole Foods,Produce,Garlic
 Whole Foods,Produce,Cherry tomatoes
 Whole Foods,Produce,Arugula
@@ -191,22 +126,9 @@ Italian Deli,,Truffle oil
 Italian Deli,,Pesto
 Bakery,,Fresh baguette
 Bakery,,Tiramisu
-Bakery,,Amaretti cookies</pre>
-        </div>
+Bakery,,Amaretti cookies`,
 
-        <div class="list-preview" id="preview-date-night"></div>
-      </div>
-
-      <!-- Template 5: Kids' Lunch Boxes -->
-      <div class="template-card">
-        <div class="template-header">
-          <div class="template-title">🎒 School Lunch Boxes</div>
-          <div class="template-description">A week's worth of kid-approved lunch items. Organized for quick shopping with little ones.</div>
-          <button class="download-btn" onclick="downloadCSV('kids-lunch')">Download CSV</button>
-        </div>
-
-        <div class="csv-preview">
-          <pre id="csv-kids-lunch">Target,Front - Produce,Apples,true
+  'kids-lunch': `Target,Front - Produce,Apples,true
 Target,Front - Produce,Grapes
 Target,Front - Produce,Baby carrots
 Target,Front - Produce,Clementines
@@ -235,22 +157,9 @@ Target,Condiments,Peanut butter
 Target,Condiments,Jelly
 Target,Household,Sandwich bags,true
 Target,Household,Napkins
-Target,Household,Lunch boxes ice packs</pre>
-        </div>
+Target,Household,Lunch boxes ice packs`,
 
-        <div class="list-preview" id="preview-kids-lunch"></div>
-      </div>
-
-      <!-- Template 6: Game Day Party -->
-      <div class="template-card">
-        <div class="template-header">
-          <div class="template-title">🏈 Game Day Party</div>
-          <div class="template-description">Feed the crowd. Snacks, dips, and drinks for the ultimate watch party.</div>
-          <button class="download-btn" onclick="downloadCSV('game-day')">Download CSV</button>
-        </div>
-
-        <div class="csv-preview">
-          <pre id="csv-game-day">Costco,Produce,Veggie tray
+  'game-day': `Costco,Produce,Veggie tray
 Costco,Produce,Salsa,true
 Costco,Produce,Guacamole,true
 Costco,Produce,Pico de gallo
@@ -258,7 +167,7 @@ Costco,Produce,
 Costco,Frozen,Chicken wings,true,true
 Costco,Frozen,Mozzarella sticks
 Costco,Frozen,Pizza rolls,true
-Costco,Frozen,Jalapeño poppers
+Costco,Frozen,Jalape\u00f1o poppers
 Costco,Frozen,Mini tacos
 Costco,Frozen,French fries
 Costco,Snacks,Tortilla chips,true
@@ -280,15 +189,31 @@ Local Deli,,Buffalo sauce
 Local Deli,,Ranch dip
 Local Deli,,Blue cheese dip
 Local Deli,,BBQ sauce
-Local Deli,,Honey mustard</pre>
-        </div>
+Local Deli,,Honey mustard`
+};
 
-        <div class="list-preview" id="preview-game-day"></div>
-      </div>
-    </div>
-  </div>
+function downloadCSV(templateName) {
+  const csv = templates[templateName];
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${templateName}.csv`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
 
-  <script src="js/shared.js"></script>
-  <script src="js/gallery.js"></script>
-</body>
-</html>
+function renderPreview(templateName) {
+  const csv = templates[templateName];
+  const data = parseCSV(csv);
+  const organized = organizeData(data);
+
+  const preview = document.getElementById(`preview-${templateName}`);
+  preview.innerHTML = '';
+  renderList(preview, organized);
+}
+
+// Render all previews on page load
+Object.keys(templates).forEach(templateName => {
+  renderPreview(templateName);
+});

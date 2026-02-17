@@ -1,0 +1,187 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.store-header {
+  font-size: 8.5pt;
+  letter-spacing: 0.3px;
+}
+
+.region-header {
+  font-size: 6.5pt;
+  letter-spacing: 0.2px;
+}
+
+.region-section {
+  page-break-inside: avoid;
+}
+
+.item {
+  font-size: 6.5pt;
+  page-break-inside: avoid;
+}
+
+.item-name {
+  flex-shrink: 0;
+}
+
+.item-count {
+  border-bottom: 1px solid #ccc;
+}
+
+.item-note {
+  border-bottom: 1px solid #ccc;
+}
+
+.upload-section {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.file-input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 20px;
+  border: 3px dashed #ff6b6b;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+  font-size: 1em;
+  background: #fff9f9;
+  transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+  border-color: #ee5a6f;
+  background: #fff;
+  transform: scale(1.01);
+}
+
+.instructions {
+  margin-top: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff5f5, #fffef5);
+  border-left: 5px solid #feca57;
+  border-radius: 8px;
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+.instructions h3 {
+  margin-bottom: 12px;
+  color: #ee5a6f;
+  font-size: 1.1em;
+}
+
+.instructions code {
+  background: rgba(255, 107, 107, 0.1);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #ee5a6f;
+  font-weight: 600;
+}
+
+button {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  font-size: 1.1em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(238, 90, 111, 0.4);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #ee5a6f, #d63447);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(238, 90, 111, 0.5);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Print Styles */
+@media print {
+  @page {
+    size: landscape;
+    margin: 0.15in;
+  }
+
+  body {
+    background: white;
+    padding: 0;
+    margin: 0;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  header, .upload-section, button {
+    display: none;
+  }
+
+  .print-list {
+    display: inline-block !important;
+    width: 49%;
+    vertical-align: top;
+    page-break-inside: avoid;
+  }
+
+  .print-list:nth-of-type(2n) {
+    margin-left: 2%;
+  }
+}
+
+.print-list {
+  display: none;
+  background: white;
+  padding: 8px;
+  font-size: 6.5pt;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+  columns: 3;
+  column-gap: 10px;
+  column-rule: 1px solid #ddd;
+}
+
+.print-list.preview {
+  display: block;
+  border: 2px solid #2a4a3e;
+  margin-bottom: 20px;
+}
+
+.error {
+  background: #ffe5e5;
+  border: 2px solid #ff6b6b;
+  padding: 20px;
+  border-radius: 12px;
+  color: #c0392b;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+}
