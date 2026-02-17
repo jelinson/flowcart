@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowCart - Template Gallery</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 40px 30px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #2c3e50;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-size: 3em;
+      font-weight: 700;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a6f, #feca57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.1em;
+      color: #7f8c8d;
+      font-weight: 400;
+      margin-bottom: 15px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #ee5a6f;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: #d63447;
+      transform: translateX(-3px);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .template-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .template-header {
+      margin-bottom: 20px;
+    }
+
+    .template-title {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 8px;
+    }
+
+    .template-description {
+      color: #7f8c8d;
+      font-size: 0.95em;
+      margin-bottom: 15px;
+    }
+
+    .download-btn {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.9em;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(238, 90, 111, 0.4);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .download-btn:hover {
+      background: linear-gradient(135deg, #ee5a6f, #d63447);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(238, 90, 111, 0.5);
+    }
+
+    .csv-preview {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .csv-preview pre {
+      margin: 0;
+      white-space: pre;
+      color: #495057;
+    }
+
+    .list-preview {
+      margin-top: 20px;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+      font-size: 7pt;
+      columns: 3;
+      column-gap: 12px;
+      column-rule: 1px solid #ddd;
+    }
+
+    .store-section {
+      margin-bottom: 8px;
+    }
+
+    .store-header {
+      font-size: 9pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 1.5px solid #000;
+      padding-bottom: 1px;
+      margin-bottom: 4px;
+    }
+
+    .region-section {
+      margin-bottom: 5px;
+      break-inside: avoid;
+    }
+
+    .region-header {
+      font-size: 7pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 2px;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3px;
+      font-size: 7pt;
+      line-height: 1.4;
+      break-inside: avoid;
+    }
+
+    .checkbox {
+      width: 8px;
+      height: 8px;
+      border: 1px solid #000;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+
+    .item-content {
+      flex: 1;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .item-name {
+      font-weight: normal;
+      color: #000;
+      flex-shrink: 0;
+    }
+
+    .item-count {
+      border-bottom: 1px solid #999;
+      flex: 1;
+      margin-left: 4px;
+      height: 9px;
+      min-width: 20px;
+    }
+
+    .item-note {
+      border-bottom: 1px solid #999;
+      flex: 1;
+      margin-left: 4px;
+      height: 9px;
+      min-width: 20px;
+    }
+
+    .blank-item {
+      border-bottom: 1px solid #ccc;
+      min-height: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>FlowCart</h1>
+      <div class="subtitle">Template Gallery</div>
+      <a href="grocery-list.html" class="back-link">← Back to Generator</a>
+    </header>
+
+    <div class="gallery">
+      <!-- Template 1: Weekly Meal Prep -->
+      <div class="template-card">
+        <div class="template-header">
+          <div class="template-title">🥗 Weekly Meal Prep</div>
+          <div class="template-description">Organized by store section for efficient bulk shopping. Perfect for Sunday meal prep warriors.</div>
+          <button class="download-btn" onclick="downloadCSV('weekly-meal-prep')">Download CSV</button>
+        </div>
+        
+        <div class="csv-preview">
+          <pre id="csv-weekly-meal-prep">Whole Foods,Produce,Spinach,true
+Whole Foods,Produce,Kale
+Whole Foods,Produce,Sweet potatoes,true
+Whole Foods,Produce,Broccoli,true
+Whole Foods,Produce,Bell peppers,true
+Whole Foods,Produce,Zucchini
+Whole Foods,Produce,Cauliflower
+Whole Foods,Produce,Cherry tomatoes
+Whole Foods,Produce,Cucumbers
+Whole Foods,Produce,Garlic
+Whole Foods,Produce,Ginger root
+Whole Foods,Produce,Lemons
+Whole Foods,Produce,
+Whole Foods,Protein,Chicken breast,true,true
+Whole Foods,Protein,Ground turkey,true
+Whole Foods,Protein,Salmon filets
+Whole Foods,Protein,Eggs,true
+Whole Foods,Protein,Tofu
+Whole Foods,Protein,
+Whole Foods,Bulk,Brown rice
+Whole Foods,Bulk,Quinoa
+Whole Foods,Bulk,Almonds
+Whole Foods,Bulk,Chia seeds
+Whole Foods,Bulk,Oats
+Whole Foods,Bulk,Chickpeas
+Whole Foods,Dairy,Greek yogurt,true
+Whole Foods,Dairy,Cottage cheese
+Whole Foods,Dairy,Almond milk
+Whole Foods,Dairy,Feta cheese
+Whole Foods,Pantry,Olive oil
+Whole Foods,Pantry,Soy sauce
+Whole Foods,Pantry,Coconut oil
+Whole Foods,Pantry,Honey
+Whole Foods,Household,Paper towels
+Whole Foods,Household,Dish soap
+Whole Foods,Household,Sponges
+Whole Foods,Household,Trash bags</pre>
+        </div>
+
+        <div class="list-preview" id="preview-weekly-meal-prep"></div>
+      </div>
+
+      <!-- Template 2: Taco Tuesday -->
+      <div class="template-card">
+        <div class="template-header">
+          <div class="template-title">🌮 Taco Tuesday</div>
+          <div class="template-description">Everything you need for an epic taco night. Organized by your local grocery store layout.</div>
+          <button class="download-btn" onclick="downloadCSV('taco-tuesday')">Download CSV</button>
+        </div>
+        
+        <div class="csv-preview">
+          <pre id="csv-taco-tuesday">Safeway,Produce - Front,Cilantro
+Safeway,Produce - Front,Limes,true
+Safeway,Produce - Front,Avocados,true
+Safeway,Produce - Front,Tomatoes,true
+Safeway,Produce - Front,Jalapeños
+Safeway,Produce - Front,White onion
+Safeway,Produce - Front,Red onion
+Safeway,Produce - Front,Garlic
+Safeway,Produce - Front,
+Safeway,Produce - Back,Lettuce
+Safeway,Produce - Back,Cabbage
+Safeway,Produce - Back,Radishes
+Safeway,Meat Counter,Ground beef,true,true
+Safeway,Meat Counter,Chicken thighs
+Safeway,Meat Counter,Chorizo
+Safeway,Aisle 2 - International,Taco seasoning
+Safeway,Aisle 2 - International,Taco shells,true
+Safeway,Aisle 2 - International,Flour tortillas,true
+Safeway,Aisle 2 - International,Corn tortillas
+Safeway,Aisle 2 - International,Tortilla chips,true
+Safeway,Aisle 2 - International,Salsa
+Safeway,Aisle 2 - International,Hot sauce
+Safeway,Aisle 2 - International,Refried beans
+Safeway,Aisle 2 - International,Black beans
+Safeway,Dairy,Sour cream
+Safeway,Dairy,Shredded cheese,true
+Safeway,Dairy,Mexican crema
+Safeway,Frozen,Margarita mix
+Safeway,Bakery,Lime wedges
+Safeway,Household,Napkins,true
+Safeway,Household,Paper plates</pre>
+        </div>
+
+        <div class="list-preview" id="preview-taco-tuesday"></div>
+      </div>
+
+      <!-- Template 3: Breakfast Essentials -->
+      <div class="template-card">
+        <div class="template-header">
+          <div class="template-title">☕ Breakfast Essentials</div>
+          <div class="template-description">Start your day right. A comprehensive breakfast staples list across multiple stores.</div>
+          <button class="download-btn" onclick="downloadCSV('breakfast-essentials')">Download CSV</button>
+        </div>
+        
+        <div class="csv-preview">
+          <pre id="csv-breakfast-essentials">Trader Joe's,,Bagels,true
+Trader Joe's,,Cream cheese
+Trader Joe's,,Orange juice
+Trader Joe's,,Coffee beans,false,true
+Trader Joe's,,Granola
+Trader Joe's,,Maple syrup
+Trader Joe's,,English muffins
+Trader Joe's,,Jam
+Trader Joe's,,Peanut butter
+Trader Joe's,,Honey
+Trader Joe's,,Oatmeal
+Trader Joe's,,Fresh berries
+Trader Joe's,,Bananas
+Trader Joe's,,
+Costco,,Eggs,true
+Costco,,Bacon,true
+Costco,,Sausage links
+Costco,,Butter
+Costco,,Milk
+Costco,,Half and half
+Costco,,Bread loaves,true
+Costco,,Pancake mix
+Costco,,Syrup
+Costco,,Hash browns
+Costco,,Paper towels
+Costco,,Coffee filters
+Local Bakery,,Croissants,true
+Local Bakery,,Muffins
+Local Bakery,,Cinnamon rolls
+Local Bakery,,Scones</pre>
+        </div>
+
+        <div class="list-preview" id="preview-breakfast-essentials"></div>
+      </div>
+
+      <!-- Template 4: Date Night -->
+      <div class="template-card">
+        <div class="template-header">
+          <div class="template-title">🍷 Date Night Dinner</div>
+          <div class="template-description">Impress with a restaurant-quality meal at home. Specialized ingredients from multiple stores.</div>
+          <button class="download-btn" onclick="downloadCSV('date-night')">Download CSV</button>
+        </div>
+        
+        <div class="csv-preview">
+          <pre id="csv-date-night">Whole Foods,Produce,Fresh basil
+Whole Foods,Produce,Garlic
+Whole Foods,Produce,Cherry tomatoes
+Whole Foods,Produce,Arugula
+Whole Foods,Produce,Lemons
+Whole Foods,Produce,Shallots
+Whole Foods,Produce,Fresh thyme
+Whole Foods,Produce,
+Whole Foods,Seafood,Fresh scallops,false,true
+Whole Foods,Seafood,Shrimp
+Whole Foods,Cheese Counter,Burrata
+Whole Foods,Cheese Counter,Parmesan wedge
+Whole Foods,Cheese Counter,Gorgonzola
+Whole Foods,Bakery,Sourdough bread
+Whole Foods,Wine Section,White wine,false,true
+Whole Foods,Wine Section,Red wine,false,true
+Whole Foods,Desserts,Dark chocolate
+Whole Foods,Household,Candles
+Whole Foods,Household,Fresh flowers,false,true
+Wine Shop,,Prosecco
+Italian Deli,,Fresh pasta
+Italian Deli,,Prosciutto
+Italian Deli,,Truffle oil
+Italian Deli,,Pesto
+Bakery,,Fresh baguette
+Bakery,,Tiramisu
+Bakery,,Amaretti cookies</pre>
+        </div>
+
+        <div class="list-preview" id="preview-date-night"></div>
+      </div>
+
+      <!-- Template 5: Kids' Lunch Boxes -->
+      <div class="template-card">
+        <div class="template-header">
+          <div class="template-title">🎒 School Lunch Boxes</div>
+          <div class="template-description">A week's worth of kid-approved lunch items. Organized for quick shopping with little ones.</div>
+          <button class="download-btn" onclick="downloadCSV('kids-lunch')">Download CSV</button>
+        </div>
+        
+        <div class="csv-preview">
+          <pre id="csv-kids-lunch">Target,Front - Produce,Apples,true
+Target,Front - Produce,Grapes
+Target,Front - Produce,Baby carrots
+Target,Front - Produce,Clementines
+Target,Front - Produce,Strawberries
+Target,Front - Produce,Celery sticks
+Target,Front - Produce,
+Target,Aisle 3 - Snacks,Goldfish crackers
+Target,Aisle 3 - Snacks,Granola bars,true
+Target,Aisle 3 - Snacks,Fruit pouches,true
+Target,Aisle 3 - Snacks,Cheese crackers
+Target,Aisle 3 - Snacks,Pretzels
+Target,Aisle 3 - Snacks,Animal crackers
+Target,Aisle 3 - Snacks,Fruit snacks
+Target,Aisle 3 - Snacks,Trail mix
+Target,Aisle 5 - Bread,Sandwich bread
+Target,Aisle 5 - Bread,Bagels
+Target,Aisle 5 - Bread,Hot dog buns
+Target,Deli,Turkey slices
+Target,Deli,Ham slices
+Target,Deli,Hummus cups
+Target,Dairy,String cheese,true
+Target,Dairy,Yogurt tubes,true
+Target,Dairy,Juice boxes,true
+Target,Dairy,Chocolate milk
+Target,Condiments,Peanut butter
+Target,Condiments,Jelly
+Target,Household,Sandwich bags,true
+Target,Household,Napkins
+Target,Household,Lunch boxes ice packs</pre>
+        </div>
+
+        <div class="list-preview" id="preview-kids-lunch"></div>
+      </div>
+
+      <!-- Template 6: Game Day Party -->
+      <div class="template-card">
+        <div class="template-header">
+          <div class="template-title">🏈 Game Day Party</div>
+          <div class="template-description">Feed the crowd. Snacks, dips, and drinks for the ultimate watch party.</div>
+          <button class="download-btn" onclick="downloadCSV('game-day')">Download CSV</button>
+        </div>
+        
+        <div class="csv-preview">
+          <pre id="csv-game-day">Costco,Produce,Veggie tray
+Costco,Produce,Salsa,true
+Costco,Produce,Guacamole,true
+Costco,Produce,Pico de gallo
+Costco,Produce,
+Costco,Frozen,Chicken wings,true,true
+Costco,Frozen,Mozzarella sticks
+Costco,Frozen,Pizza rolls,true
+Costco,Frozen,Jalapeño poppers
+Costco,Frozen,Mini tacos
+Costco,Frozen,French fries
+Costco,Snacks,Tortilla chips,true
+Costco,Snacks,Potato chips,true
+Costco,Snacks,Pretzels
+Costco,Snacks,Popcorn,true
+Costco,Snacks,Mixed nuts
+Costco,Snacks,Candy bowl mix
+Costco,Drinks,Soda variety pack,true
+Costco,Drinks,Beer,true,true
+Costco,Drinks,Energy drinks
+Costco,Drinks,Water bottles,true
+Costco,Drinks,Sports drinks
+Costco,Household,Paper plates,true
+Costco,Household,Napkins,true
+Costco,Household,Plastic cups,true
+Costco,Household,Trash bags
+Local Deli,,Buffalo sauce
+Local Deli,,Ranch dip
+Local Deli,,Blue cheese dip
+Local Deli,,BBQ sauce
+Local Deli,,Honey mustard</pre>
+        </div>
+
+        <div class="list-preview" id="preview-game-day"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const templates = {
+      'weekly-meal-prep': `Whole Foods,Produce,Spinach,true
+Whole Foods,Produce,Kale
+Whole Foods,Produce,Sweet potatoes,true
+Whole Foods,Produce,Broccoli,true
+Whole Foods,Produce,Bell peppers,true
+Whole Foods,Produce,Zucchini
+Whole Foods,Produce,Cauliflower
+Whole Foods,Produce,Cherry tomatoes
+Whole Foods,Produce,Cucumbers
+Whole Foods,Produce,Garlic
+Whole Foods,Produce,Ginger root
+Whole Foods,Produce,Lemons
+Whole Foods,Produce,
+Whole Foods,Protein,Chicken breast,true,true
+Whole Foods,Protein,Ground turkey,true
+Whole Foods,Protein,Salmon filets
+Whole Foods,Protein,Eggs,true
+Whole Foods,Protein,Tofu
+Whole Foods,Protein,
+Whole Foods,Bulk,Brown rice
+Whole Foods,Bulk,Quinoa
+Whole Foods,Bulk,Almonds
+Whole Foods,Bulk,Chia seeds
+Whole Foods,Bulk,Oats
+Whole Foods,Bulk,Chickpeas
+Whole Foods,Dairy,Greek yogurt,true
+Whole Foods,Dairy,Cottage cheese
+Whole Foods,Dairy,Almond milk
+Whole Foods,Dairy,Feta cheese
+Whole Foods,Pantry,Olive oil
+Whole Foods,Pantry,Soy sauce
+Whole Foods,Pantry,Coconut oil
+Whole Foods,Pantry,Honey
+Whole Foods,Household,Paper towels
+Whole Foods,Household,Dish soap
+Whole Foods,Household,Sponges
+Whole Foods,Household,Trash bags`,
+
+      'taco-tuesday': `Safeway,Produce - Front,Cilantro
+Safeway,Produce - Front,Limes,true
+Safeway,Produce - Front,Avocados,true
+Safeway,Produce - Front,Tomatoes,true
+Safeway,Produce - Front,Jalapeños
+Safeway,Produce - Front,White onion
+Safeway,Produce - Front,Red onion
+Safeway,Produce - Front,Garlic
+Safeway,Produce - Front,
+Safeway,Produce - Back,Lettuce
+Safeway,Produce - Back,Cabbage
+Safeway,Produce - Back,Radishes
+Safeway,Meat Counter,Ground beef,true,true
+Safeway,Meat Counter,Chicken thighs
+Safeway,Meat Counter,Chorizo
+Safeway,Aisle 2 - International,Taco seasoning
+Safeway,Aisle 2 - International,Taco shells,true
+Safeway,Aisle 2 - International,Flour tortillas,true
+Safeway,Aisle 2 - International,Corn tortillas
+Safeway,Aisle 2 - International,Tortilla chips,true
+Safeway,Aisle 2 - International,Salsa
+Safeway,Aisle 2 - International,Hot sauce
+Safeway,Aisle 2 - International,Refried beans
+Safeway,Aisle 2 - International,Black beans
+Safeway,Dairy,Sour cream
+Safeway,Dairy,Shredded cheese,true
+Safeway,Dairy,Mexican crema
+Safeway,Frozen,Margarita mix
+Safeway,Bakery,Lime wedges
+Safeway,Household,Napkins,true
+Safeway,Household,Paper plates`,
+
+      'breakfast-essentials': `Trader Joe's,,Bagels,true
+Trader Joe's,,Cream cheese
+Trader Joe's,,Orange juice
+Trader Joe's,,Coffee beans,false,true
+Trader Joe's,,Granola
+Trader Joe's,,Maple syrup
+Trader Joe's,,English muffins
+Trader Joe's,,Jam
+Trader Joe's,,Peanut butter
+Trader Joe's,,Honey
+Trader Joe's,,Oatmeal
+Trader Joe's,,Fresh berries
+Trader Joe's,,Bananas
+Trader Joe's,,
+Costco,,Eggs,true
+Costco,,Bacon,true
+Costco,,Sausage links
+Costco,,Butter
+Costco,,Milk
+Costco,,Half and half
+Costco,,Bread loaves,true
+Costco,,Pancake mix
+Costco,,Syrup
+Costco,,Hash browns
+Costco,,Paper towels
+Costco,,Coffee filters
+Local Bakery,,Croissants,true
+Local Bakery,,Muffins
+Local Bakery,,Cinnamon rolls
+Local Bakery,,Scones`,
+
+      'date-night': `Whole Foods,Produce,Fresh basil
+Whole Foods,Produce,Garlic
+Whole Foods,Produce,Cherry tomatoes
+Whole Foods,Produce,Arugula
+Whole Foods,Produce,Lemons
+Whole Foods,Produce,Shallots
+Whole Foods,Produce,Fresh thyme
+Whole Foods,Produce,
+Whole Foods,Seafood,Fresh scallops,false,true
+Whole Foods,Seafood,Shrimp
+Whole Foods,Cheese Counter,Burrata
+Whole Foods,Cheese Counter,Parmesan wedge
+Whole Foods,Cheese Counter,Gorgonzola
+Whole Foods,Bakery,Sourdough bread
+Whole Foods,Wine Section,White wine,false,true
+Whole Foods,Wine Section,Red wine,false,true
+Whole Foods,Desserts,Dark chocolate
+Whole Foods,Household,Candles
+Whole Foods,Household,Fresh flowers,false,true
+Wine Shop,,Prosecco
+Italian Deli,,Fresh pasta
+Italian Deli,,Prosciutto
+Italian Deli,,Truffle oil
+Italian Deli,,Pesto
+Bakery,,Fresh baguette
+Bakery,,Tiramisu
+Bakery,,Amaretti cookies`,
+
+      'kids-lunch': `Target,Front - Produce,Apples,true
+Target,Front - Produce,Grapes
+Target,Front - Produce,Baby carrots
+Target,Front - Produce,Clementines
+Target,Front - Produce,Strawberries
+Target,Front - Produce,Celery sticks
+Target,Front - Produce,
+Target,Aisle 3 - Snacks,Goldfish crackers
+Target,Aisle 3 - Snacks,Granola bars,true
+Target,Aisle 3 - Snacks,Fruit pouches,true
+Target,Aisle 3 - Snacks,Cheese crackers
+Target,Aisle 3 - Snacks,Pretzels
+Target,Aisle 3 - Snacks,Animal crackers
+Target,Aisle 3 - Snacks,Fruit snacks
+Target,Aisle 3 - Snacks,Trail mix
+Target,Aisle 5 - Bread,Sandwich bread
+Target,Aisle 5 - Bread,Bagels
+Target,Aisle 5 - Bread,Hot dog buns
+Target,Deli,Turkey slices
+Target,Deli,Ham slices
+Target,Deli,Hummus cups
+Target,Dairy,String cheese,true
+Target,Dairy,Yogurt tubes,true
+Target,Dairy,Juice boxes,true
+Target,Dairy,Chocolate milk
+Target,Condiments,Peanut butter
+Target,Condiments,Jelly
+Target,Household,Sandwich bags,true
+Target,Household,Napkins
+Target,Household,Lunch boxes ice packs`,
+
+      'game-day': `Costco,Produce,Veggie tray
+Costco,Produce,Salsa,true
+Costco,Produce,Guacamole,true
+Costco,Produce,Pico de gallo
+Costco,Produce,
+Costco,Frozen,Chicken wings,true,true
+Costco,Frozen,Mozzarella sticks
+Costco,Frozen,Pizza rolls,true
+Costco,Frozen,Jalapeño poppers
+Costco,Frozen,Mini tacos
+Costco,Frozen,French fries
+Costco,Snacks,Tortilla chips,true
+Costco,Snacks,Potato chips,true
+Costco,Snacks,Pretzels
+Costco,Snacks,Popcorn,true
+Costco,Snacks,Mixed nuts
+Costco,Snacks,Candy bowl mix
+Costco,Drinks,Soda variety pack,true
+Costco,Drinks,Beer,true,true
+Costco,Drinks,Energy drinks
+Costco,Drinks,Water bottles,true
+Costco,Drinks,Sports drinks
+Costco,Household,Paper plates,true
+Costco,Household,Napkins,true
+Costco,Household,Plastic cups,true
+Costco,Household,Trash bags
+Local Deli,,Buffalo sauce
+Local Deli,,Ranch dip
+Local Deli,,Blue cheese dip
+Local Deli,,BBQ sauce
+Local Deli,,Honey mustard`
+    };
+
+    function downloadCSV(templateName) {
+      const csv = templates[templateName];
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${templateName}.csv`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+
+    function parseCSV(csv) {
+      const lines = csv.trim().split('\n');
+      const data = [];
+      
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        
+        const values = line.split(',').map(v => v.trim());
+        
+        if (values.length < 1 || !values[0]) continue;
+        
+        const parseBoolean = (val) => {
+          if (!val) return false;
+          const lower = val.toLowerCase();
+          return lower === 'true' || lower === 't' || lower === '1' || lower === 'x' || lower === 'yes';
+        };
+        
+        data.push({
+          store: values[0],
+          region: values[1] || null,
+          item: values[2] || '',
+          count: parseBoolean(values[3]),
+          note: parseBoolean(values[4])
+        });
+      }
+      
+      return data;
+    }
+
+    function organizeData(data) {
+      const organized = {};
+      
+      data.forEach(row => {
+        if (!organized[row.store]) {
+          organized[row.store] = {};
+        }
+        const regionKey = row.region || '_no_region_';
+        if (!organized[row.store][regionKey]) {
+          organized[row.store][regionKey] = [];
+        }
+        organized[row.store][regionKey].push(row);
+      });
+      
+      return organized;
+    }
+
+    function renderPreview(templateName) {
+      const csv = templates[templateName];
+      const data = parseCSV(csv);
+      const organized = organizeData(data);
+      
+      const preview = document.getElementById(`preview-${templateName}`);
+      preview.innerHTML = '';
+      
+      for (const [store, regions] of Object.entries(organized)) {
+        const storeSection = document.createElement('div');
+        storeSection.className = 'store-section';
+        
+        const storeHeader = document.createElement('div');
+        storeHeader.className = 'store-header';
+        storeHeader.textContent = store;
+        storeSection.appendChild(storeHeader);
+        
+        for (const [region, items] of Object.entries(regions)) {
+          const regionSection = document.createElement('div');
+          regionSection.className = 'region-section';
+          
+          if (region !== '_no_region_') {
+            const regionHeader = document.createElement('div');
+            regionHeader.className = 'region-header';
+            regionHeader.textContent = region;
+            regionSection.appendChild(regionHeader);
+          }
+          
+          items.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item';
+            
+            const checkbox = document.createElement('div');
+            checkbox.className = 'checkbox';
+            itemDiv.appendChild(checkbox);
+            
+            const content = document.createElement('div');
+            content.className = 'item-content';
+            
+            if (!item.item) {
+              content.className += ' blank-item';
+            } else {
+              const itemName = document.createElement('span');
+              itemName.className = 'item-name';
+              const itemText = item.item;
+              const capitalizedText = itemText
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ');
+              itemName.textContent = capitalizedText;
+              content.appendChild(itemName);
+              
+              if (item.count) {
+                const countLabel = document.createElement('span');
+                countLabel.textContent = 'Qty: ';
+                countLabel.style.fontSize = '6pt';
+                countLabel.style.marginLeft = '4px';
+                content.appendChild(countLabel);
+                
+                const countSpan = document.createElement('span');
+                countSpan.className = 'item-count';
+                content.appendChild(countSpan);
+              }
+              
+              if (item.note) {
+                const noteSpan = document.createElement('span');
+                noteSpan.className = 'item-note';
+                content.appendChild(noteSpan);
+              }
+            }
+            
+            itemDiv.appendChild(content);
+            regionSection.appendChild(itemDiv);
+          });
+          
+          storeSection.appendChild(regionSection);
+        }
+        
+        preview.appendChild(storeSection);
+      }
+    }
+
+    // Render all previews on page load
+    Object.keys(templates).forEach(templateName => {
+      renderPreview(templateName);
+    });
+  </script>
+</body>
+</html>

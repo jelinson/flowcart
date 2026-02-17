@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grocery List Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 40px 30px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #2c3e50;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-size: 3em;
+      font-weight: 700;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a6f, #feca57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.1em;
+      color: #7f8c8d;
+      font-weight: 400;
+    }
+
+    .upload-section {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 20px;
+      border: 3px dashed #ff6b6b;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+      font-size: 1em;
+      background: #fff9f9;
+      transition: all 0.3s ease;
+    }
+
+    input[type="file"]:hover {
+      border-color: #ee5a6f;
+      background: #fff;
+      transform: scale(1.01);
+    }
+
+    .instructions {
+      margin-top: 25px;
+      padding: 20px;
+      background: linear-gradient(135deg, #fff5f5, #fffef5);
+      border-left: 5px solid #feca57;
+      border-radius: 8px;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+
+    .instructions h3 {
+      margin-bottom: 12px;
+      color: #ee5a6f;
+      font-size: 1.1em;
+    }
+
+    .instructions code {
+      background: rgba(255, 107, 107, 0.1);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: #ee5a6f;
+      font-weight: 600;
+    }
+
+    button {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+      color: white;
+      border: none;
+      padding: 18px 40px;
+      font-size: 1.1em;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(238, 90, 111, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #ee5a6f, #d63447);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(238, 90, 111, 0.5);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Print Styles */
+    @media print {
+      @page {
+        size: landscape;
+        margin: 0.15in;
+      }
+      
+      body {
+        background: white;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .container {
+        max-width: 100%;
+      }
+
+      header, .upload-section, button {
+        display: none;
+      }
+
+      .print-list {
+        display: inline-block !important;
+        width: 49%;
+        vertical-align: top;
+        page-break-inside: avoid;
+      }
+      
+      .print-list:nth-of-type(2n) {
+        margin-left: 2%;
+      }
+    }
+
+    .print-list {
+      display: none;
+      background: white;
+      padding: 8px;
+      font-size: 6.5pt;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+      columns: 3;
+      column-gap: 10px;
+      column-rule: 1px solid #ddd;
+    }
+
+    .print-list.preview {
+      display: block;
+      border: 2px solid #2a4a3e;
+      margin-bottom: 20px;
+    }
+
+    .store-section {
+      margin-bottom: 8px;
+    }
+
+    .store-header {
+      font-size: 8.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 1.5px solid #000;
+      padding-bottom: 1px;
+      margin-bottom: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    .region-section {
+      margin-bottom: 5px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .region-header {
+      font-size: 6.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 2px;
+      letter-spacing: 0.2px;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3px;
+      font-size: 6.5pt;
+      line-height: 1.4;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .checkbox {
+      width: 8px;
+      height: 8px;
+      border: 1px solid #000;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+
+    .item-content {
+      flex: 1;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .item-name {
+      font-weight: normal;
+      flex-shrink: 0;
+      color: #000;
+    }
+
+    .item-count {
+      border-bottom: 1px solid #ccc;
+      flex: 1;
+      margin-left: 4px;
+      height: 9px;
+      min-width: 20px;
+    }
+
+    .item-note {
+      border-bottom: 1px solid #ccc;
+      flex: 1;
+      margin-left: 4px;
+      height: 9px;
+      min-width: 20px;
+    }
+
+    .blank-item {
+      border-bottom: 1px solid #ccc;
+      min-height: 12px;
+    }
+
+    .error {
+      background: #ffe5e5;
+      border: 2px solid #ff6b6b;
+      padding: 20px;
+      border-radius: 12px;
+      color: #c0392b;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>FlowCart</h1>
+      <div class="subtitle">Shopping in perfect order</div>
+      <a href="gallery.html" style="display: inline-block; margin-top: 15px; color: #ee5a6f; text-decoration: none; font-weight: 600; font-size: 1em; transition: all 0.3s ease;">View Example Templates →</a>
+    </header>
+
+    <div class="upload-section">
+      <div class="file-input-wrapper">
+        <input type="file" id="csvFile" accept=".csv" />
+      </div>
+      
+      <div class="instructions">
+        <h3>CSV Format:</h3>
+        <p><code>Store, Region, Item, Count, Note</code></p>
+        <p style="margin-top: 8px;">
+          • Leave Item empty (e.g., <code>Store,Region,</code>) to create blank lines<br>
+          • Just <code>Store</code> creates a blank line under that store<br>
+          • Just <code>Store,Region</code> creates a blank line under that region<br>
+          • Region can be left empty to list items directly under store<br>
+          • Count/Note: Use <code>true</code>, <code>1</code>, <code>x</code>, or <code>yes</code> to add blank lines (empty = false)<br>
+          • All trailing commas are optional
+        </p>
+      </div>
+
+      <button id="generateBtn" disabled>Generate List</button>
+      <div id="error" class="error" style="display: none;"></div>
+    </div>
+
+    <div id="preview"></div>
+  </div>
+
+  <script>
+    let csvData = null;
+
+    document.getElementById('csvFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          csvData = event.target.result;
+          document.getElementById('generateBtn').disabled = false;
+          document.getElementById('error').style.display = 'none';
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      try {
+        generateList();
+      } catch (err) {
+        showError('Error parsing CSV: ' + err.message);
+      }
+    });
+
+    function showError(message) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
+
+    function parseCSV(csv) {
+      const lines = csv.trim().split('\n');
+      const data = [];
+      
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line || line.startsWith('#')) continue; // Skip empty lines and comments
+        
+        // Simple CSV parser (handles basic cases)
+        const values = line.split(',').map(v => v.trim());
+        
+        if (values.length < 1 || !values[0]) {
+          throw new Error(`Line ${i + 1}: Need at least Store`);
+        }
+        
+        // Helper to parse boolean-like values
+        const parseBoolean = (val) => {
+          if (!val) return false;
+          const lower = val.toLowerCase();
+          return lower === 'true' || lower === 't' || lower === '1' || lower === 'x' || lower === 'yes';
+        };
+        
+        data.push({
+          store: values[0],
+          region: values[1] || null, // Allow empty region
+          item: values[2] || '', // Allow empty item (creates blank line)
+          count: parseBoolean(values[3]),
+          note: parseBoolean(values[4])
+        });
+      }
+      
+      return data;
+    }
+
+    function organizeData(data) {
+      const organized = {};
+      
+      data.forEach(row => {
+        if (!organized[row.store]) {
+          organized[row.store] = {};
+        }
+        const regionKey = row.region || '_no_region_'; // Use special key for no region
+        if (!organized[row.store][regionKey]) {
+          organized[row.store][regionKey] = [];
+        }
+        organized[row.store][regionKey].push(row);
+      });
+      
+      return organized;
+    }
+
+    function generateList() {
+      const data = parseCSV(csvData);
+      const organized = organizeData(data);
+      
+      const preview = document.getElementById('preview');
+      preview.innerHTML = '';
+      
+      // Generate two copies
+      for (let copy = 0; copy < 2; copy++) {
+        const printList = document.createElement('div');
+        printList.className = 'print-list preview';
+        
+        for (const [store, regions] of Object.entries(organized)) {
+          const storeSection = document.createElement('div');
+          storeSection.className = 'store-section';
+          
+          const storeHeader = document.createElement('div');
+          storeHeader.className = 'store-header';
+          storeHeader.textContent = store;
+          storeSection.appendChild(storeHeader);
+          
+          for (const [region, items] of Object.entries(regions)) {
+            const regionSection = document.createElement('div');
+            regionSection.className = 'region-section';
+            
+            // Only add region header if region exists
+            if (region !== '_no_region_') {
+              const regionHeader = document.createElement('div');
+              regionHeader.className = 'region-header';
+              regionHeader.textContent = region;
+              regionSection.appendChild(regionHeader);
+            }
+            
+            items.forEach(item => {
+              const itemDiv = document.createElement('div');
+              itemDiv.className = 'item';
+              
+              const checkbox = document.createElement('div');
+              checkbox.className = 'checkbox';
+              itemDiv.appendChild(checkbox);
+              
+              const content = document.createElement('div');
+              content.className = 'item-content';
+              
+              if (!item.item || item.item === '[BLANK]') {
+                content.className += ' blank-item';
+              } else {
+                const itemName = document.createElement('span');
+                itemName.className = 'item-name';
+                // Capitalize first letter of each word
+                const itemText = item.item;
+                const capitalizedText = itemText
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                  .join(' ');
+                itemName.textContent = capitalizedText;
+                content.appendChild(itemName);
+                
+                if (item.count) {
+                  const countLabel = document.createElement('span');
+                  countLabel.textContent = 'Qty: ';
+                  countLabel.style.fontSize = '6pt';
+                  countLabel.style.marginLeft = '4px';
+                  content.appendChild(countLabel);
+                  
+                  const countSpan = document.createElement('span');
+                  countSpan.className = 'item-count';
+                  content.appendChild(countSpan);
+                }
+                
+                if (item.note) {
+                  const noteSpan = document.createElement('span');
+                  noteSpan.className = 'item-note';
+                  content.appendChild(noteSpan);
+                }
+              }
+              
+              itemDiv.appendChild(content);
+              regionSection.appendChild(itemDiv);
+            });
+            
+            storeSection.appendChild(regionSection);
+          }
+          
+          printList.appendChild(storeSection);
+        }
+        
+        preview.appendChild(printList);
+      }
+      
+      // Add print button
+      const printBtn = document.createElement('button');
+      printBtn.textContent = 'Print List';
+      printBtn.onclick = () => window.print();
+      preview.appendChild(printBtn);
+    }
+  </script>
+</body>
+</html>
