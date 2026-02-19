@@ -215,5 +215,6 @@ function renderPreview(templateName) {
 
 // Render all previews on page load
 Object.keys(templates).forEach(templateName => {
+  document.getElementById(`csv-${templateName}`).textContent = templates[templateName];
   renderPreview(templateName);
 });
