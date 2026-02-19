@@ -4,7 +4,7 @@ Grocery list generator that creates printable, store-organized shopping lists fr
 
 ## Project Structure
 
-- `grocery-list.html` — Main page: upload a CSV, generate a printable list (two copies, landscape)
+- `index.html` — Main page: upload a CSV, generate a printable list (two copies, landscape)
 - `gallery.html` — Template gallery with example CSVs and live previews
 - `css/common.css` — Shared styles (reset, body, header, store/region/item layout, checkbox)
 - `css/grocery-list.css` — Upload form, buttons, print styles, error display
